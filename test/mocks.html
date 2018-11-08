@@ -103,10 +103,10 @@
             error: 'No back data',
         }
 
-        $scope.send = data => $http.post("http://localhost:3000/manage", data);
+        $scope.send = data => $http.post("/manage", data);
 
-        $scope.sendData = (backData, layData) => $http.post("http://localhost:3000/data", backData)
-            .then(() => $http.post("http://localhost:3000/data", layData));
+        $scope.sendData = (backData, layData) => $http.post("/data", backData)
+            .then(() => $http.post("/data", layData));
     });
 </script>
 </body>

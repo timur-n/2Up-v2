@@ -1,3 +1,5 @@
+let serverUrl = 'http://localhost:3000'
+
 // using a message handler from the inject scripts
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     chrome.pageAction.show(sender.tab.id);
@@ -9,9 +11,19 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     });
     console.log('2UP: Background: message received', request, data);
     axios
-        .post('http://localhost:3000/data', data)
-        .then(response => console.log('2UP: Background: http response', response))
-        .catch(error => console.log('2UP: Background: post error'));
+        .post(serverUrl + '/data', data)
+        .then(response => console.log('2UP: Background: http response', serverUrl, response))
+        .catch(error => console.log('2UP: Background: post error', serverUrl, error));
 
     sendResponse();
 });
+
+function getConfig() {
+    return {
+        serverUrl
+    }
+}
+
+function setConfig(config) {
+    serverUrl = config.serverUrl;
+}

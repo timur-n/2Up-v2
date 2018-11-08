@@ -111,7 +111,7 @@ angular
 </md-toolbar>
 <md-dialog-content>
     <div class="up-calc__content">
-        <div class="up-calc__title">
+        <div class="up-calc__title" ng-if="$ctrl.home && $ctrl.away">
             <span ng-class="{'up-calc--selected': $ctrl.useHome}">{{$ctrl.home}}</span>
             <span>&nbsp;v&nbsp;</span>
             <span ng-class="{'up-calc--selected': !$ctrl.useHome}">{{$ctrl.away}}</span></div>
@@ -124,8 +124,8 @@ angular
 </md-dialog>`,
                 controllerAs: '$ctrl',
                 controller: function($mdDialog) {
-                    this.home = event.home.name;
-                    this.away = event.away.name;
+                    this.home = event.home && event.home.name;
+                    this.away = event.away && event.away.name;
                     this.useHome = useHome;
                     const selection = event[useHome ? 'home' : 'away'];
                     this.data = {
@@ -203,14 +203,14 @@ angular
         <div flex="50">
             <md-list>
                 <md-list-item ng-repeat="item in $ctrl.backItems" ng-click="$ctrl.addBack(item)"
-                ng-class="{'up-match--selected': item === $ctrl.current.back}"
+                ng-class="[item === $ctrl.current.back && 'up-match--selected', 'up-match__item']"
                 >{{item.name}}</md-list-item>
             </md-list>
         </div>
         <div>
             <md-list>
                 <md-list-item ng-repeat="item in $ctrl.layItems" ng-click="$ctrl.addLay(item)"
-                ng-class="{'up-match--selected': item === $ctrl.current.lay}"
+                ng-class="[item === $ctrl.current.lay && 'up-match--selected', 'up-match__item']"
                 >{{item.name}}</md-list-item>
             </md-list>
         </div>

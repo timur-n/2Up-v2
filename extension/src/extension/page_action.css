@@ -27,3 +27,6 @@ html, body {
 .up-app-config__input {
     width: 50px;
 }
+.up-app-config__url-input {
+    width: 100%;
+}

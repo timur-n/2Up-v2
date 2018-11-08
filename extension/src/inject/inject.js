@@ -5,8 +5,13 @@ var poller;
 var autoRefresh;
 let config = false;
 let autoReloadTimer = false;
+let lastReload = new Date();
 
 // todo: add calculator to offline page
+
+function needRefresh() {
+    return polling && config && config.autoReload;
+}
 
 function readData() {
     counter += 1;
@@ -18,15 +23,21 @@ function readData() {
             var scraperName = window.bb_getScraperName;
             data = window[scraperName](data, config);
             config = config || (data && data.defaultConfig);
-            if (polling && config && config.autoReload && !autoReloadTimer) {
+            if (needRefresh() && !autoReloadTimer) {
                 const reloadFunc = data.autoReloadFunc ? data.autoReloadFunc : () => window.location.reload();
                 const delta = config.intervalTo - config.intervalFrom;
                 const timespan = Math.round((config.intervalFrom + delta * Math.random()) * 60000);
                 console.log('2UP: auto-refreshing in', timespan);
                 autoReloadTimer = setTimeout(() => {
-                    autoReloadTimer = false;
+                    if (needRefresh()) {
+                        console.log('2UP: auto-refreshing now');
+                        lastReload = new Date();
+                        autoReloadTimer = false;
+                        setTimeout(() => reloadFunc(), 10);
+                    }
                 }, timespan);
             }
+            data.lastReload = lastReload.toISOString();
         }
     } catch (e) {
         data = {

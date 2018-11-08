@@ -73,10 +73,13 @@ angular
             <md-icon md-svg-icon="settings"></md-icon>
         </md-button>
         <md-menu-content>
-            <md-menu-item><md-checkbox ng-model="$ctrl.logOn">Log</md-checkbox></md-menu-item>
+            <md-menu-item><md-button ng-click="$ctrl.toggleLog()">
+                <span>Log {{$ctrl.logOn?'on':'off'}}</span>
+            </md-button></md-menu-item>
             <md-menu-item><md-button ng-click="$ctrl.settings()">Settings</md-button></md-menu-item>
             <md-menu-item><md-button ng-click="$ctrl.refreshServer()">Refresh</md-button></md-menu-item>
             <md-menu-item><md-button ng-click="$ctrl.match()">Match</md-button></md-menu-item>
+            <md-menu-item><md-button ng-click="$ctrl.showCalc()">Calculator</md-button></md-menu-item>
         </md-menu-content>
     </md-menu>
 </div>
@@ -257,6 +260,13 @@ angular
                 type: 'command',
                 command: 'clear',
             });
+
+            this.toggleLog = () => this.logOn = !this.logOn;
+
+            this.showCalc = () => upCalcDialog.show({
+                home: {},
+                away: {},
+            }, true);
 
             this.match = () => {
                 const backs = [];

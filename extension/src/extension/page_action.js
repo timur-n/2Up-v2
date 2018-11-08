@@ -41,11 +41,15 @@ angular.module('up-app', [
                     path: `images/${iconName}.png`,
                     tabId,
                 });
+                chrome.extension.getBackgroundPage().setConfig({
+                    serverUrl: config.serverUrl
+                });
             })
         };
 
         this.read = () => {
             const defer = $q.defer();
+            const bgConfig = chrome.extension.getBackgroundPage().getConfig();
             chrome.tabs.query({
                 active: true,
                 currentWindow: true
@@ -60,6 +64,7 @@ angular.module('up-app', [
                     conf.autoReload = config.autoReload;
                     conf.intervalFrom = config.intervalFrom;
                     conf.intervalTo = config.intervalTo;
+                    conf.serverUrl = bgConfig.serverUrl;
                     defer.resolve(conf);
                 });
             })
@@ -74,14 +79,20 @@ angular.module('up-app', [
     <md-checkbox class="up-app-config__checkbox" ng-model="$ctrl.autoReload" ng-change="$ctrl.update()">Reload page every</md-checkbox>
     <div>
         <md-input-container class="up-app-config__input">
-            <input type="number" max-size="3" min="0" ng-change="$ctrl.update()" ng-disabled="!$ctrl.autoReload" ng-model="$ctrl.intervalFrom">
+            <input type="number" max-size="3" min="0" ng-change="$ctrl.update()" ng-disabled="!$ctrl.autoReload"
+                ng-model="$ctrl.intervalFrom" aria-label="Interval from">
         </md-input-container>
         <span> to </span>
         <md-input-container class="up-app-config__input">
-            <input type="number" max-size="3" min="0" ng-change="$ctrl.update()" ng-disabled="!$ctrl.autoReload" ng-model="$ctrl.intervalTo">
+            <input type="number" max-size="3" min="0" ng-change="$ctrl.update()" ng-disabled="!$ctrl.autoReload"
+                ng-model="$ctrl.intervalTo" aria-label="Interval to">
         </md-input-container>
         <span>min</span>
     </div>
+    <md-input-container class="up-app-config__url-input">
+        <label>Server URL</label>
+        <input type="url" ng-change="$ctrl.update()" ng-model="$ctrl.serverUrl">
+    </md-input-container>
 </div>`,
         controller: function(upPageConfig) {
             this.$onInit = () => {
@@ -91,6 +102,7 @@ angular.module('up-app', [
                     this.autoReload = conf.autoReload;
                     this.intervalFrom = conf.intervalFrom;
                     this.intervalTo = conf.intervalTo;
+                    this.serverUrl = conf.serverUrl;
                 });
             };
 
@@ -100,6 +112,7 @@ angular.module('up-app', [
                     autoReload: this.autoReload,
                     intervalFrom: this.intervalFrom,
                     intervalTo: this.intervalTo,
+                    serverUrl: this.serverUrl,
                 });
             };
 
