@@ -7,7 +7,7 @@ const fs = require('fs')
 const webPush = require('web-push')
 
 let currentData = {}
-const port = 8080
+const port = process.env.PORT || 3000
 const httpsPort = 443
 const config = {
     minOdds: 2,
