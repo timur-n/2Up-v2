@@ -1,0 +1,4 @@
+node_modules
+server/manualMatch.json
+server/2up.key.pem
+server/2up.cert.pem

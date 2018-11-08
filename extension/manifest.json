@@ -1,0 +1,52 @@
+{
+    "name": "2UP",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "description": "",
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    },
+    "background": {
+        "scripts": [
+            "src/extension/lib/axios.min.js",
+            "src/extension/background.js"
+        ],
+        "persistent": true
+    },
+    "page_action": {
+        "default_icon": "src/extension/images/active.png",
+        "default_title": "2UP",
+        "default_popup": "src/extension/page_action.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://smarkets.com/*",
+                "*://www.bet365.com/*"
+            ],
+            "js": [
+                "src/inject/inject.js"
+            ]
+        },
+        {
+            "matches": ["https://smarkets.com/*/*-2018-2019"],
+            "js": ["src/inject/smarkets.js"]
+        },
+        {
+            "matches": ["https://www.bet365.com/*"],
+            "js": ["src/inject/bet365.js"]
+        }
+    ],
+    "externally_connectable": {
+        "matches": ["*://localhost/*"]
+    },
+    "permissions": [
+        "tabs",
+        "storage",
+        "unlimitedStorage",
+        "https://*.betfair.com/*",
+        "*://timcity/*"
+    ]
+}

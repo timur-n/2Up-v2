@@ -1,0 +1,8 @@
+Create server cert, prerequisites:
+- CA key - create new 4096
+- CA cert
+- server key - create new 2048
+- server cert request (csr) - Enter different common name
+- openssl.cnf
+
+openssl x509 -req -in 2up.csr.pem -CA ./certs/ca.cert.pem -CAkey ./private/ca.key.pem -CAcreateserial -out 2up.crt -days 3825 -sha256 -extfile ext.ext

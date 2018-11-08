@@ -1,0 +1,90 @@
+<div layout="column" class="mb-calc__container">
+    <div layout="row" ng-if="!$ctrl.mobile">
+        <md-tabs flex class="" md-selected="$ctrl.selectedTab">
+            <md-tab ng-repeat="tab in $ctrl.tabs" md-on-select="$ctrl.selectTab(tab)">
+                <span ng-class="{'mb-calc__tab--fb': tab.isFreebet}" ng-mousedown="$ctrl.removeTab(tab, $event)">{{tab.stake}}<span class="mb-calc__tab-sep">@</span>{{tab.backOdds}}</span>
+            </md-tab>
+            <md-tab ng-click="$ctrl.addTab()">
+                <md-icon md-svg-icon="add"></md-icon>
+            </md-tab>
+        </md-tabs>
+    </div>
+    <div layout="row">
+        <div class="mb-calc__back-odds-container">
+            <md-input-container class="mb-calc__back-odds">
+                <label>Back odds</label>
+                <input type="number" min="1" ng-model="$ctrl.backOdds" ng-change="$ctrl.recalculate()">
+            </md-input-container>
+        </div>
+        <div class="mb-calc__lay-odds-container">
+            <md-input-container>
+                <label>Lay odds</label>
+                <input type="number" min="1" ng-model="$ctrl.layOdds" ng-change="$ctrl.recalculate()">
+            </md-input-container>
+        </div>
+        <div class="mb-calc__commission-container" flex layout="row" layout-align="start center">
+            <md-input-container class="mb-calc__commission">
+                <label>Comm</label>
+                <input type="number" min="0" ng-model="$ctrl.commission" ng-change="$ctrl.recalculate()">
+            </md-input-container>
+            <md-button ng-repeat="commission in $ctrl.commissions"
+                class="md-icon-button md-raised"
+                ng-class="{'md-primary': $ctrl.commission===commission}"
+                ng-click="$ctrl.updateCommission(commission)"
+            >
+                {{commission}}%
+            </md-button>
+        </div>
+    </div>
+    <div class="mb-calc__stake-container" layout="row" layout-align="space-between center">
+        <md-input-container class="mb-calc__stake">
+            <label>Stake</label>
+            <input type="number" min="0" ng-model="$ctrl.stake" ng-change="$ctrl.recalculate()">
+        </md-input-container>
+        <md-button ng-repeat="stake in $ctrl.stakes"
+            class="md-icon-button md-raised"
+            ng-class="{'md-primary': $ctrl.stake===stake}"
+            ng-click="$ctrl.updateStake(stake)"
+        >
+            {{stake}}
+        </md-button>
+    </div>
+    <div layout="row" layout-align="space-between center" ng-if="!$ctrl.mobile">
+        <md-button flex="50%" class="md-raised" ng-class="{'md-primary': !$ctrl.isFreebet}" ng-click="$ctrl.setFreebet(false)">Qualifier</md-button>
+        <md-button flex class="md-raised" ng-class="{'md-warn': $ctrl.isFreebet}" ng-click="$ctrl.setFreebet(true)">Free SNR</md-button>
+    </div>
+    <div flex class="mb-calc__table-container" layout="row">
+        <div flex>
+            <table class="mb-calc__table" flex>
+                <thead>
+                    <th class="mb-calc__col1">Lay odds</th>
+                    <th class="mb-calc__col2">Profit</th>
+                    <th class="mb-calc__col3">Lay stake</th>
+                    <th class="mb-calc__col4">Liability</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="result in $ctrl.results"
+                        ng-class="{'mb-calc__row--selected': result.isCurrent, 'mb-calc__row--profit': result.isProfit, 'mb-calc__row--loss': !result.isProfit}"
+                        ng-click="$ctrl.select(result)"
+                    >
+                        <td class="mb-calc__col1">{{result.layOdds}}</td>
+                        <td class="mb-calc__col2">{{result.profit}}{{result.profitDetails}}</td>
+                        <td class="mb-calc__col3" ng-class="{'mb-calc__col3--selected': result.isCurrent}">{{result.layStake}}</td>
+                        <td class="mb-calc__col4">{{result.liability}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div layout="column" style="display:none;">
+            <md-button ng-repeat="step in $ctrl.steps" class="md-icon-button md-raised">
+                {{step}}
+            </md-button>
+        </div>
+    </div>
+    <div class="mb-calc__copy" ng-if="!$ctrl.mobile">
+        <md-button class="md-fab md-primary" ng-click="$ctrl.copyDetails()" aria-label="Copy details">
+            <md-icon md-svg-icon="copy"></md-icon>
+            <md-tooltip md-direction="top">Copy odds and stake for report</md-tooltip>
+        </md-button>
+    </div>
+</div>

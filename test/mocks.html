@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="lib/angular-material.min.css"/>
+    <link type="text/css" rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="lib/angular.js"></script>
+    <script type="text/javascript" src="lib/angular-animate.min.js"></script>
+    <script type="text/javascript" src="lib/angular-aria.min.js"></script>
+    <script type="text/javascript" src="lib/angular-messages.min.js"></script>
+    <script type="text/javascript" src="lib/angular-material.min.js"></script>
+</head>
+<body ng-app="test-app" ng-controller="test">
+    <md-button ng-click="send(getOffer())">Send offer</md-button>
+    <md-button ng-click="sendData(backData, layData)">Send data</md-button>
+    <md-button ng-click="send(config)">Send config</md-button>
+    <md-button ng-click="send(configDelete)">Send delete</md-button>
+    <md-button ng-click="send(error)">Send error</md-button>
+<script>
+
+    let callback;
+    angular.module('test-app', [
+        'ngMaterial',
+    ])
+    .controller('test', function(
+        $scope,
+        $http,
+    ) {
+        $scope.getOffer = () => ({
+            type: 'offer',
+            id: 'test-offer',
+            text: 'TEST: Man Utd v Bournemouth',
+            time: new Date(),
+            selection: 'Bournemouth',
+            back: 4.1,
+            lay: 4.1,
+            stake: 200,
+            layStake: 200,
+            profitLoss: 0,
+            rating: 100,
+        });
+
+        $scope.config = {
+            type: 'config',
+            added: [
+                {
+                    id: 'Man-Utd-Bournemouth-13:00',
+                    tracking: false,
+                    home: {name: 'Man Utd'},
+                    away: {name: 'Bournemouth'},
+                    time: '13:00',
+                },
+                {
+                    id: 'Man-City-Chelsea-15:00',
+                    tracking: true,
+                    home: {name: 'Man City', back: 2.5, lay: 2.6, stake: 200},
+                    away: {name: 'Chelsea', back: 3.1, lay: 3.2, stake: 100},
+                    time: '15:00'
+                }
+            ],
+        };
+
+        $scope.backData = {
+            source: 'bet365-list',
+            url: 'Test url',
+            events: [
+                {
+                    home: {name: 'Test-home', backOdds: 2},
+                    away: {name: 'Test-away', backOdds: 3},
+                },
+                {
+                    home: {name: 'Test-home2', backOdds: 1.5},
+                    away: {name: 'Test-away2', backOdds: 5},
+                }
+            ]
+        }
+
+        $scope.layData = {
+            source: 'smarkets-list',
+            url: 'Test url SM',
+            events: [
+                {
+                    time: (new Date()).toISOString(),
+                    home: {name: 'Test-home', layOdds: 2.1},
+                    away: {name: 'Test-away', layOdds: 2.98},
+                },
+                {
+                    time: (new Date()).toISOString(),
+                    home: {name: 'Test-home2', layOdds: 1.51},
+                    away: {name: 'Test-away2', layOdds: 5.2},
+                }
+            ]
+        }
+
+        $scope.configDelete = {
+            type: 'config',
+            deleted: ['Man-City-Chelsea-15:00', 'Man-Utd-Bournemouth-13:00'],
+        };
+
+        $scope.error = {
+            type: 'error',
+            error: 'No back data',
+        }
+
+        $scope.send = data => $http.post("http://localhost:3000/manage", data);
+
+        $scope.sendData = (backData, layData) => $http.post("http://localhost:3000/data", backData)
+            .then(() => $http.post("http://localhost:3000/data", layData));
+    });
+</script>
+</body>
+</html>

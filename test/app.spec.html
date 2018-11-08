@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="lib/angular-material.min.css"/>
+    <link type="text/css" rel="stylesheet" href="mb-calc/mb-calc.css">
+    <link type="text/css" rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="lib/angular.js"></script>
+    <script type="text/javascript" src="lib/angular-animate.min.js"></script>
+    <script type="text/javascript" src="lib/angular-aria.min.js"></script>
+    <script type="text/javascript" src="lib/angular-messages.min.js"></script>
+    <script type="text/javascript" src="lib/angular-material.min.js"></script>
+    <script type="text/javascript" src="mb-calc/calc.js"></script>
+    <script type="text/javascript" src="mb-calc/mb-calc.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="services.js"></script>
+</head>
+<body ng-app="test-app" ng-controller="test">
+    <up-app></up-app>
+    <div></div>
+    <md-button ng-click="send(getOffer())">Send offer</md-button>
+    <md-button ng-click="send(config)">Send config</md-button>
+    <md-button ng-click="send(configDelete)">Send delete</md-button>
+    <md-button ng-click="send(error)">Send error</md-button>
+    <md-button ng-click="send(testData)">Send test data</md-button>
+<script>
+
+    let callback;
+    angular.module('test-app', [
+        'ngMaterial',
+        'up',
+        'up-services',
+    ])
+    .service('upSse', function() {
+        this.register = callbackFn => {
+            callback = callbackFn;
+            return true;
+        }
+    })
+    .controller('test', function(
+        $scope,
+        $timeout,
+        upPushNotifications
+    ) {
+        $scope.getOffer = () => ({
+            type: 'offer',
+            offer: {
+                id: (new Date()).getTime(),
+                text: 'Man Utd v Bournemouth',
+                selection: 'Bournemouth',
+                back: 4.1,
+                lay: 4.1,
+                stake: 200,
+                layStake: 200,
+                profitLoss: 0,
+                rating: 100,
+            }
+        });
+
+        $timeout(() => {
+            $scope.permission = upPushNotifications.getStatus();
+        })
+
+        $scope.config = {
+            type: 'config',
+            added: [
+                {
+                    id: 'Man-Utd-Bournemouth-13:00',
+                    tracking: false,
+                    home: {name: 'Man Utd'},
+                    away: {name: 'Bournemouth'},
+                    time: '13:00',
+                },
+                {
+                    id: 'Man-City-Chelsea-15:00',
+                    tracking: true,
+                    home: {name: 'Man City', back: 2.5, lay: 2.6, stake: 200},
+                    away: {name: 'Chelsea', back: 3.1, lay: 3.2, stake: 100},
+                    time: '15:00'
+                }
+            ],
+        };
+
+        $scope.configDelete = {
+            type: 'config',
+            deleted: ['Man-City-Chelsea-15:00', 'Man-Utd-Bournemouth-13:00'],
+        };
+
+        $scope.error = {
+            type: 'error',
+            error: 'No back data',
+        }
+
+        $scope.testData = {
+            'Test-home-Test-away': {
+                time: (new Date()).toISOString(),
+                home: {name: 'Test-home', backOdds: 2, layOdds: 2.1},
+                away: {name: 'Test-away', backOdds: 3, layOdds: 3.2},
+            },
+            'Unmatched-1': {
+                time: (new Date()).toISOString(),
+                home: {name: 'Test-home', backOdds: 2},
+                away: {name: 'Test-away', backOdds: 3},
+            }
+        }
+
+        $scope.send = data => {
+            // Need out-of-angular send because callback uses $apply()
+            setTimeout(() => {
+                callback(data);
+            });
+        }
+    });
+</script>
+</body>
+</html>

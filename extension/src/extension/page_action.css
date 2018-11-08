@@ -1,0 +1,29 @@
+html, body {
+    width: 200px;
+    min-height: 0;
+}
+
+.up-app-config__body {
+    padding: 10px;
+}
+
+.up-app-config__header.sm {
+    background-color: black;
+    background-image: url('images/smarkets-logo.svg');
+    background-repeat: no-repeat;
+    height: 30px;
+}
+.up-app-config__header.b365 {
+    background-color: #189970;
+    background-image: url('images/bet365-logo.svg');
+    background-repeat: no-repeat;
+    height: 30px;
+}
+
+.up-app-config__checkbox {
+    display: block;
+}
+
+.up-app-config__input {
+    width: 50px;
+}

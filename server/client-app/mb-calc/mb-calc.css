@@ -1,0 +1,122 @@
+.mb-calc__container {
+    height: 100%;
+}
+
+/* Tabs */
+.mb-calc__tab--fb {
+    /* color: rgb(255,87,34) !important; */
+    color: rgb(76,175,80);
+}
+
+.mb-calc__tab-sep {
+    color: grey !important;
+    font-size: 10px !important;
+}
+
+/* Odds */
+.mb-calc__back-odds-container {
+    background: #BBDEFB;
+}
+
+.mb-calc__lay-odds-container {
+    background: #FFCDD2;
+}
+
+.mb-calc__back-odds-container,
+.mb-calc__lay-odds-container {
+    width: 70px;
+    height: 60px;
+}
+
+.mb-calc__back-odds,
+.mb-calc__lay-odds {
+    margin-bottom: 0 !important;
+}
+
+.mb-calc__back-odds label {
+    overflow: visible !important;
+}
+
+
+/* Commission */
+.mb-calc__commission-container {
+    height: 60px;
+    padding: 0 10px;
+    background: #FFF9C4;
+}
+.mb-calc__commission-label {
+    padding: 6px 0 0;
+    font-size: 12px;
+}
+.mb-calc__commission {
+    width: 50px;
+    margin: 33px 0 0 0 !important;
+}
+
+
+/* Stake */
+.mb-calc__stake-container {
+    height: 60px;
+    padding: 0 10px;
+    background: #E0E0E0;
+}
+.mb-calc__stake {
+    margin: 33px 0 0 0 !important;
+    width: 60px;
+}
+
+
+/* Table */
+.mb-calc__table-container {
+    overflow-y: auto;
+}
+.mb-calc__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.mb-calc__table td, .mb-calc__table th {
+    border-bottom: 1px solid white;
+    padding: 10px;
+    text-align: left;
+    white-space: nowrap;
+}
+.mb-calc__table th {
+    padding: 5px;
+}
+.mb-calc__col1 {
+    width: 15%;
+}
+.mb-calc__col2 {
+    width: 30%;
+}
+.mb-calc__col3 {
+    width: 20%;
+}
+.mb-calc__col4 {
+    width: 25%;
+}
+.mb-calc__row--selected {
+    font-weight: bold;
+}
+.mb-calc__row--profit {
+    background-color: #d0f8ce;
+}
+.mb-calc__row--loss {
+    background-color: #FFCDD2;
+}
+.mb-calc__col3--selected {
+    font-size: 14px;
+    color: white;
+    background: rgb(63,81,181);
+}
+
+mb-calc .md-button {
+    margin: 0 !important;
+}
+
+.mb-calc__copy {
+    position: absolute !important;
+    bottom: 10 !important;
+    right: 10 !important;
+}
