@@ -7,7 +7,7 @@ const fs = require('fs')
 const webPush = require('web-push')
 
 let currentData = {}
-const port = 3000
+const port = 8080
 const httpsPort = 443
 const config = {
     minOdds: 2,
@@ -231,9 +231,9 @@ loadCustomMatches()
 
 // Start http and https servers
 app.listen(port, () => console.log(`2up server listening on port ${port}`))
-const httpsOptions = {
-    key: fs.readFileSync('server/2up.key.pem'),
-    cert: fs.readFileSync('server/2up.cert.pem'),
-}
-https.createServer(httpsOptions, app)
-    .listen(httpsPort, () => console.log(`2up HTTPS server listening on port ${httpsPort}`))
+// const httpsOptions = {
+//     key: fs.readFileSync('server/2up.key.pem'),
+//     cert: fs.readFileSync('server/2up.cert.pem'),
+// }
+// https.createServer(httpsOptions, app)
+//     .listen(httpsPort, () => console.log(`2up HTTPS server listening on port ${httpsPort}`))
