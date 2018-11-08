@@ -231,9 +231,12 @@ loadCustomMatches()
 
 // Start http and https servers
 app.listen(port, () => console.log(`2up server listening on port ${port}`))
-// const httpsOptions = {
-//     key: fs.readFileSync('server/2up.key.pem'),
-//     cert: fs.readFileSync('server/2up.cert.pem'),
-// }
-// https.createServer(httpsOptions, app)
-//     .listen(httpsPort, () => console.log(`2up HTTPS server listening on port ${httpsPort}`))
+const params = process.argv.slice(2)
+if (params[0] === '-local') {
+    const httpsOptions = {
+        key: fs.readFileSync('server/2up.key.pem'),
+        cert: fs.readFileSync('server/2up.cert.pem'),
+    }
+    https.createServer(httpsOptions, app)
+        .listen(httpsPort, () => console.log(`2up HTTPS server listening on port ${httpsPort}`))
+}

@@ -10,6 +10,7 @@
   },
   "scripts": {
     "start": "node server/index.js",
+    "local": "node server/index.js -local",
     "test": "node node_modules/karma/bin/karma start test/karma.conf.js"
   }
 }
