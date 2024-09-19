@@ -7,11 +7,12 @@ const fs = require('fs')
 const webPush = require('web-push')
 
 let currentData = {}
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3005
 const httpsPort = 443
 const config = {
     minOdds: 2,
-    commission: 0,
+    // todo: add commission to the frontend app config
+    commission: 2,
 }
 // Current status of data
 const pollStatus = {
@@ -150,8 +151,7 @@ app.post('/manage', (req, res) => {
     // Send push notifications
     if (obj.type === 'offer') {
         sendPush(obj, res)
-    }
-    if (obj.type === 'command') {
+    } else if (obj.type === 'command') {
         switch (obj.command) {
             case 'clear':
                 currentData = dataProcessor.clear()
@@ -168,6 +168,8 @@ app.post('/manage', (req, res) => {
                 break
         }
         res.json({})
+    } else {
+        res.status(400).json({ error: 'Unknown command' })
     }
 })
 

@@ -74,7 +74,7 @@ angular
         </md-button>
         <md-menu-content>
             <md-menu-item><md-button ng-click="$ctrl.toggleLog()">
-                <span>Log {{$ctrl.logOn?'on':'off'}}</span>
+                <span>Logging {{$ctrl.logOn?'on':'off'}}</span>
             </md-button></md-menu-item>
             <md-menu-item><md-button ng-click="$ctrl.settings()">Settings</md-button></md-menu-item>
             <md-menu-item><md-button ng-click="$ctrl.refreshServer()">Refresh</md-button></md-menu-item>
@@ -206,7 +206,7 @@ angular
                     options.backOdds, options.layOdds, 100, 0, 10000);
 
                 this.events = []
-                for (event in data) {
+                for (let event in data) {
                     if (typeof data[event] === 'object') {
                         const eventData = data[event];
                         calc(eventData.home);

@@ -18,7 +18,7 @@
 </head>
 <body ng-app="test-app" ng-controller="test">
     <up-app></up-app>
-    <div></div>
+    <div>This test page uses the actual frontend app but the backend data is manually created with these buttons:</div>
     <md-button ng-click="send(getOffer())">Send offer</md-button>
     <md-button ng-click="send(config)">Send config</md-button>
     <md-button ng-click="send(configDelete)">Send delete</md-button>
@@ -45,17 +45,15 @@
     ) {
         $scope.getOffer = () => ({
             type: 'offer',
-            offer: {
-                id: (new Date()).getTime(),
-                text: 'Man Utd v Bournemouth',
-                selection: 'Bournemouth',
-                back: 4.1,
-                lay: 4.1,
-                stake: 200,
-                layStake: 200,
-                profitLoss: 0,
-                rating: 100,
-            }
+            id: (new Date()).getTime(),
+            text: 'Man Utd v Bournemouth',
+            selection: 'Bournemouth',
+            back: 4.1,
+            lay: 4.1,
+            stake: 200,
+            layStake: 200,
+            profitLoss: 0,
+            rating: 100,
         });
 
         $timeout(() => {

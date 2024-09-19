@@ -106,7 +106,7 @@ function calculateOffers(data, config) {
         if (obj.backOdds >= config.minOdds) {
             const stake = oddsToStake(obj.backOdds)
             const result = calc.calcQualifier(obj.backOdds, obj.layOdds, stake, config.commission, 10000)
-            const id = `${event.home.name}-${event.away.name}-${obj.name}-${obj.backOdds}-${obj.layOdds}`
+            const id = `${event.source}-${event.home.name}-${event.away.name}-${obj.name}-${obj.backOdds}-${obj.layOdds}`
             const now = new Date()
             const thresholdMsec = config.timeThreshold * 60000
             const isNew = !offerTimestamps[id] || (now.getTime() - offerTimestamps[id].getTime()) > thresholdMsec
@@ -123,6 +123,7 @@ function calculateOffers(data, config) {
                     layStake: result.layStake,
                     profitLoss: result.profit,
                     rating: result.profit,
+                    source: event.source,
                 })
                 offerTimestamps[id] = now
             }
@@ -145,6 +146,7 @@ module.exports = function(newData, config) {
         event.home.name = transformSmarketsName(event.home.name)
         event.away.name = transformSmarketsName(event.away.name)
         event.id = getEventId(event)
+        event.source = newData.source
         if (newData.source === 'smarkets-list') {
             updateEvent(event, 'layOdds')
         } else if (newData.source === 'bet365-list') {
@@ -172,6 +174,7 @@ module.exports.clear = function() {
 }
 
 module.exports.addMatches = function(matches) {
+    // todo: add support for multiple sources, currently once lay is matched to back, it can't be matched to another back
     (matches || []).forEach(match => {
         const backId = match && match.back && match.back.event && match.back.event.id
         const layId = match && match.lay && match.lay.event && match.lay.event.id
